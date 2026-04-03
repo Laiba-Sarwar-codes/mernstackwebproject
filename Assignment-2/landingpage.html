@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unze London</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="main-panel">
+            <div class="left-panel">
+                <div class="menue"></div>
+            </div>
+
+            <div class="logo"></div>
+
+            <div class="right-panel">
+                <div class="search"></div>
+                <div class="shoppingcart"></div>
+                <div class="profile"></div>
+            </div>
+        </div>
+
+        <!-- top menu -->
+        <nav class="top-nav">
+            <div class="hamburger" id="hamburger">
+                ☰
+            </div>
+
+            <div class="navbar" id="navbar">
+                <a href="#">VIEW ALL</a>
+                <a href="#">SANDALS</a>
+                <a href="#">SLIPPERS</a>
+                <a href="#">COURTS</a>
+                <a href="#">COMFORT</a>
+                <a href="#">KHUSSA</a>
+                <a href="#">MOCCASINS</a>
+                <a href="#">BALLERINAS</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="hero-section">
+            <div class="shoes-section">
+                <div class="image-box1">
+                    <p>ENOLA</p>
+                    <div class="image-styling" style="background-image:url('image1.webp')"></div>
+                </div>
+
+                <div class="image-box2">
+                    <p>ENOLA</p>
+                    <div class="image-styling" style="background-image:url('image2.webp')"></div>
+                </div>
+
+                <div class="image-box1">
+                    <p>ENOLA</p>
+                    <div class="image-styling" style="background-image:url('image3.webp')"></div>
+                </div>
+
+                <div class="image-box1">
+                    <p>ENOLA</p>
+                    <div class="image-styling" style="background-image:url('image4.webp')"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const hamburger = document.getElementById("hamburger");
+        const navbar = document.getElementById("navbar");
+        const navLinks = document.querySelectorAll(".navbar a");
+
+        hamburger.addEventListener("click", function () {
+            navbar.classList.toggle("show");
+        });
+
+        navLinks.forEach(function(link) {
+            link.addEventListener("click", function() {
+                navbar.classList.remove("show");
+            });
+        });
+    </script>
+
+</body>
+</html>
