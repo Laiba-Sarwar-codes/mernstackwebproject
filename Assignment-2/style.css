@@ -8,7 +8,6 @@ body {
     font-family: sans-serif;
 }
 
-/* top header */
 .main-panel {
     display: flex;
     justify-content: space-between;
@@ -75,7 +74,6 @@ body {
     height: 34px;
 }
 
-/* nav */
 .top-nav {
     width: 100%;
     position: relative;
@@ -105,7 +103,6 @@ body {
     text-align: right;
 }
 
-/* product section */
 .shoes-section {
     display: flex;
     flex-wrap: wrap;
@@ -125,9 +122,9 @@ body {
 .image-box1 p,
 .image-box2 p {
     margin-bottom: 8px;
+    font-size: 14px;
 }
 
-/* responsive menu */
 @media (max-width: 768px) {
     .hamburger {
         display: block;
@@ -141,8 +138,6 @@ body {
         width: 100%;
         background-color: #ffffff;
         padding: 0;
-        overflow: hidden;
-        transition: all 0.3s ease;
     }
 
     .navbar.show {
