@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Enola Classic Heels",
+    "price": 89.99,
+    "description": "Elegant classic heels designed for parties, dinners, and special occasions with premium comfort and modern styling.",
+    "rating": 4.7,
+    "image": "image1.webp",
+    "category": "Women Heels"
+  },
+  {
+    "id": 2,
+    "title": "Luxury Comfort Sandals",
+    "price": 64.99,
+    "description": "Lightweight and stylish sandals with a soft sole, perfect for everyday wear and summer outings.",
+    "rating": 4.5,
+    "image": "image2.webp",
+    "category": "Sandals"
+  },
+  {
+    "id": 3,
+    "title": "Royal Court Shoes",
+    "price": 99.99,
+    "description": "Premium court shoes crafted for a polished look, offering elegance, durability, and all-day comfort.",
+    "rating": 4.8,
+    "image": "image3.webp",
+    "category": "Courts"
+  },
+  {
+    "id": 4,
+    "title": "Signature Party Wear",
+    "price": 74.99,
+    "description": "Chic and glamorous footwear created to elevate your evening outfits with a luxurious finish.",
+    "rating": 4.6,
+    "image": "image4.webp",
+    "category": "Party Wear"
+  }
+]
