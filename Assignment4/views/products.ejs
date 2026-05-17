@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products - Unze London</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+</head>
+<body>
+<header>
+  <div class="main-panel">
+    <div class="left-panel">
+      <div class="menue" id="hamburger"></div>
+    </div>
+
+    <a href="/" class="logo"></a>
+
+    <div class="right-panel">
+      <div class="search"></div>
+      <div class="shoppingcart"></div>
+      <div class="profile"></div>
+    </div>
+  </div>
+
+  <nav class="top-nav">
+    <div class="navbar" id="navbar">
+      <a href="/products">VIEW ALL</a>
+      <a href="/products?category=Sandals">SANDALS</a>
+      <a href="/products?category=Slippers">SLIPPERS</a>
+      <a href="/products?category=Courts">COURTS</a>
+      <a href="/products?category=Comfort">COMFORT</a>
+      <a href="/products?category=Khussa">KHUSSA</a>
+      <a href="/products?category=Moccasins">MOCCASINS</a>
+      <a href="/products?category=Ballerinas">BALLERINAS</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="catalog-section">
+    <h1>WOMEN SHOES VIEW ALL</h1>
+
+    <form class="filter-form" action="/products" method="GET">
+      <input type="text" name="search" placeholder="Search by product name" value="<%= query.search %>">
+
+      <select name="category">
+        <option value="">All Categories</option>
+        <% categories.forEach(category => { %>
+          <option value="<%= category %>" <%= query.category === category ? "selected" : "" %>><%= category %></option>
+        <% }) %>
+      </select>
+
+      <input type="number" name="minPrice" placeholder="Min Price" value="<%= query.minPrice %>">
+      <input type="number" name="maxPrice" placeholder="Max Price" value="<%= query.maxPrice %>">
+
+      <select name="sort">
+        <option value="newest" <%= query.sort === "newest" ? "selected" : "" %>>Newest</option>
+        <option value="priceLow" <%= query.sort === "priceLow" ? "selected" : "" %>>Price: Low to High</option>
+        <option value="priceHigh" <%= query.sort === "priceHigh" ? "selected" : "" %>>Price: High to Low</option>
+        <option value="rating" <%= query.sort === "rating" ? "selected" : "" %>>Top Rated</option>
+        <option value="stock" <%= query.sort === "stock" ? "selected" : "" %>>Stock</option>
+      </select>
+
+      <button type="submit">Apply</button>
+      <a href="/products" class="clear-btn">Clear</a>
+    </form>
+
+    <p class="result-count"><%= totalProducts %> products found</p>
+
+    <div class="product-grid">
+      <% if (products.length === 0) { %>
+        <p class="no-products">No products found.</p>
+      <% } %>
+
+      <% products.forEach(product => { %>
+        <div class="product-card">
+          <div class="product-image-wrap">
+            <% if (product.newArrival) { %>
+              <span class="tag-new">NEW</span>
+            <% } %>
+            <span class="tag-discount"><%= product.discount %>%</span>
+            <img src="<%= product.image %>" alt="<%= product.name %>">
+          </div>
+
+          <div class="product-details">
+            <h3><%= product.name %></h3>
+            <div class="price-line">
+              <span class="old-price">PKR <%= product.oldPrice.toLocaleString() %></span>
+              <span class="discount-text">-<%= product.discount %>%</span>
+              <span class="new-price">PKR <%= product.price.toLocaleString() %></span>
+            </div>
+            <p><%= product.colors %> Colors</p>
+            <p class="rating-stock">Rating: <%= product.rating %> ★ | Stock: <%= product.stock %></p>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+    <% if (totalPages > 1) { %>
+      <div class="pagination">
+        <% const queryString = `search=${query.search}&category=${query.category}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&sort=${query.sort}`; %>
+
+        <% if (currentPage > 1) { %>
+          <a href="/products?page=<%= currentPage - 1 %>&<%= queryString %>">Previous</a>
+        <% } %>
+
+        <% for (let i = 1; i <= totalPages; i++) { %>
+          <a class="<%= currentPage === i ? 'active' : '' %>" href="/products?page=<%= i %>&<%= queryString %>"><%= i %></a>
+        <% } %>
+
+        <% if (currentPage < totalPages) { %>
+          <a href="/products?page=<%= currentPage + 1 %>&<%= queryString %>">Next</a>
+        <% } %>
+      </div>
+    <% } %>
+  </section>
+</main>
+
+<footer>
+  <div class="email-section">
+    <p class="email-heading">GET THE LATEST TRENDS FIRST</p>
+    <p class="email-sub">Email address</p>
+    <div class="email-bar">
+      <input type="text">
+      <span>→</span>
+    </div>
+  </div>
+
+  <div class="socials-section">
+    <i class="fa-brands fa-facebook"></i>
+    <i class="fa-brands fa-youtube"></i>
+    <i class="fa-brands fa-instagram"></i>
+    <i class="fa-brands fa-tiktok"></i>
+  </div>
+
+  <div class="footer-bottom">
+    <p>Copyright © 2026 Unze London</p>
+  </div>
+</footer>
+
+<script src="/script.js"></script>
+</body>
+</html>

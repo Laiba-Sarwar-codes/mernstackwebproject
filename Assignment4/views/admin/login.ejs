@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Unze London</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-login-body">
+  <div class="login-card">
+    <h1>Admin Login</h1>
+    <p>Sign in to manage your product inventory.</p>
+
+    <% if (error) { %>
+      <div class="alert"><%= error %></div>
+    <% } %>
+
+    <form action="/admin/login" method="POST">
+      <label>Username</label>
+      <input type="text" name="username" required placeholder="admin">
+
+      <label>Password</label>
+      <input type="password" name="password" required placeholder="admin password">
+
+      <button type="submit">Login</button>
+    </form>
+
+    <a href="/products" class="back-link">Back to products</a>
+  </div>
+</body>
+</html>
