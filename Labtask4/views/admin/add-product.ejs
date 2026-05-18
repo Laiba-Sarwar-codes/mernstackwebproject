@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Product - Unze Admin</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <h2>Unze Admin</h2>
+      <a href="/admin">Dashboard</a>
+      <a href="/admin/products/add" class="active">Add Product</a>
+      <a href="/products">View Store</a>
+      <form action="/logout" method="POST">
+        <button type="submit" class="logout-btn">Logout</button>
+      </form>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-header">
+        <div>
+          <h1>Add New Product</h1>
+          <p>Create a new product and upload its image.</p>
+        </div>
+        <a href="/admin" class="secondary-btn">Back</a>
+      </div>
+
+      <% if (error) { %>
+        <div class="alert"><%= error %></div>
+      <% } %>
+
+      <form class="product-form" action="/admin/products/add" method="POST" enctype="multipart/form-data">
+        <label>Product Name</label>
+        <input type="text" name="name" required value="<%= formData.name || '' %>">
+
+        <div class="two-cols">
+          <div>
+            <label>Old Price</label>
+            <input type="number" name="oldPrice" required min="0" value="<%= formData.oldPrice || '' %>">
+          </div>
+          <div>
+            <label>Sale Price</label>
+            <input type="number" name="price" required min="0" value="<%= formData.price || '' %>">
+          </div>
+        </div>
+
+        <label>Category</label>
+        <select name="category" required>
+          <option value="">Select Category</option>
+          <% ['Sandals','Slippers','Courts','Comfort','Khussa','Moccasins','Ballerinas'].forEach(cat => { %>
+            <option value="<%= cat %>" <%= formData.category === cat ? 'selected' : '' %>><%= cat %></option>
+          <% }) %>
+        </select>
+
+        <div class="two-cols">
+          <div>
+            <label>Rating</label>
+            <input type="number" name="rating" required min="0" max="5" step="0.1" value="<%= formData.rating || '' %>">
+          </div>
+          <div>
+            <label>Stock</label>
+            <input type="number" name="stock" required min="0" value="<%= formData.stock || '' %>">
+          </div>
+        </div>
+
+        <div class="two-cols">
+          <div>
+            <label>Colors</label>
+            <input type="number" name="colors" min="1" value="<%= formData.colors || 3 %>">
+          </div>
+          <div>
+            <label>Discount %</label>
+            <input type="number" name="discount" min="0" max="100" value="<%= formData.discount || 20 %>">
+          </div>
+        </div>
+
+        <label>Product Image</label>
+        <input type="file" name="image" accept="image/*" required>
+
+        <label class="check-row">
+          <input type="checkbox" name="newArrival" checked>
+          Show NEW tag
+        </label>
+
+        <button type="submit" class="primary-btn full-btn">Add Product</button>
+      </form>
+    </main>
+  </div>
+</body>
+</html>
