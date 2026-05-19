@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== "undefined" ? title : "Unze London" %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+</head>
+<body>
+<header>
+  <div class="main-panel">
+    <div class="left-panel">
+      <div class="menue" id="hamburger"></div>
+    </div>
+
+    <a href="/" class="logo" aria-label="Unze London home"></a>
+
+    <div class="right-panel">
+      <div class="search"></div>
+      <a href="/checkout" class="shoppingcart" title="Checkout"></a>
+      <div class="auth-nav">
+        <% if (currentUser) { %>
+          <a href="/profile">My Profile</a>
+          <% if (currentUser.role === "admin") { %>
+            <a href="/admin">Admin</a>
+            <a href="/sales">Sales</a>
+          <% } %>
+          <form action="/logout" method="POST"><button type="submit">Logout</button></form>
+        <% } else { %>
+          <a href="/login">Login</a>
+          <a href="/register">Register</a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <nav class="top-nav">
+    <div class="navbar" id="navbar">
+      <a href="/products">VIEW ALL</a>
+      <a href="/products?category=Sandals">SANDALS</a>
+      <a href="/products?category=Slippers">SLIPPERS</a>
+      <a href="/products?category=Courts">COURTS</a>
+      <a href="/products?category=Comfort">COMFORT</a>
+      <a href="/products?category=Khussa">KHUSSA</a>
+      <a href="/products?category=Moccasins">MOCCASINS</a>
+      <a href="/products?category=Ballerinas">BALLERINAS</a>
+      <a href="/sales">SALES DASHBOARD</a>
+    </div>
+  </nav>
+</header>
+
+<% if (successMessages && successMessages.length) { %>
+  <div class="page-flashes"><% successMessages.forEach(message => { %><div class="flash success"><%= message %></div><% }) %></div>
+<% } %>
+<% if (errorMessages && errorMessages.length) { %>
+  <div class="page-flashes"><% errorMessages.forEach(message => { %><div class="flash error"><%= message %></div><% }) %></div>
+<% } %>
+
+<main>
+  <%- body %>
+</main>
+
+<footer>
+  <div class="email-section">
+    <p class="email-heading">GET THE LATEST TRENDS FIRST</p>
+    <p class="email-sub">Email address</p>
+    <div class="email-bar">
+      <input type="text">
+      <span>→</span>
+    </div>
+  </div>
+
+  <div class="socials-section">
+    <i class="fa-brands fa-facebook"></i>
+    <i class="fa-brands fa-youtube"></i>
+    <i class="fa-brands fa-instagram"></i>
+    <i class="fa-brands fa-tiktok"></i>
+  </div>
+
+  <div class="footer-bottom">
+    <p>Copyright © 2026 Unze London</p>
+  </div>
+</footer>
+
+<script src="/script.js"></script>
+</body>
+</html>

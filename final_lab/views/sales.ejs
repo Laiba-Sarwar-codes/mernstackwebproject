@@ -1,0 +1,147 @@
+<section class="sales-dashboard">
+  <div class="sales-hero">
+    <div>
+      <p class="sales-eyebrow">Admin Analytics</p>
+      <h1>Live Sales Dashboard</h1>
+      <p>Track total revenue, total orders, the top-selling product, and recent transactions from MongoDB.</p>
+    </div>
+    <div class="sales-live-badge">
+      <span class="live-dot"></span>
+      Auto refresh: every 10 seconds
+    </div>
+  </div>
+
+  <section class="sales-cards">
+    <article class="sales-card">
+      <span>Total Revenue</span>
+      <strong id="totalRevenue">PKR <%= salesData.totalRevenue.toLocaleString() %></strong>
+      <small>Calculated from non-cancelled orders.</small>
+    </article>
+
+    <article class="sales-card">
+      <span>Total Orders</span>
+      <strong id="totalOrders"><%= salesData.totalOrders.toLocaleString() %></strong>
+      <small>All completed/pending order records.</small>
+    </article>
+
+    <article class="sales-card">
+      <span>Top-Selling Product</span>
+      <strong id="topProduct"><%= salesData.topSellingProduct.name %></strong>
+      <small><span id="topQuantity"><%= salesData.topSellingProduct.quantitySold.toLocaleString() %></span> units sold</small>
+    </article>
+  </section>
+
+  <section class="sales-table-card">
+    <div class="sales-table-header">
+      <div>
+        <h2>Recent Transactions</h2>
+        <p>Latest orders update automatically using jQuery AJAX polling.</p>
+      </div>
+      <p class="last-updated">Last updated: <span id="lastUpdated"><%= new Date(salesData.lastUpdated).toLocaleString() %></span></p>
+    </div>
+
+    <div class="sales-table-wrap">
+      <table class="sales-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="recentTransactionsBody">
+          <% if (salesData.recentTransactions.length === 0) { %>
+            <tr>
+              <td colspan="6" class="empty-row">No sales/orders found yet. Create an order to see live data here.</td>
+            </tr>
+          <% } %>
+
+          <% salesData.recentTransactions.forEach(transaction => { %>
+            <tr>
+              <td>#<%= transaction.shortId %></td>
+              <td>
+                <strong><%= transaction.customerName %></strong>
+                <% if (transaction.customerEmail) { %><small><%= transaction.customerEmail %></small><% } %>
+              </td>
+              <td><%= transaction.itemsSummary %></td>
+              <td>PKR <%= transaction.totalAmount.toLocaleString() %></td>
+              <td><span class="status-pill status-<%= transaction.status %>"><%= transaction.status %></span></td>
+              <td><%= new Date(transaction.createdAt).toLocaleString() %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+  function formatCurrency(amount) {
+    return "PKR " + Number(amount || 0).toLocaleString();
+  }
+
+  function formatDate(value) {
+    if (!value) return "-";
+    return new Date(value).toLocaleString();
+  }
+
+  function escapeHtml(value) {
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function renderRecentTransactions(transactions) {
+    var $body = $("#recentTransactionsBody");
+    $body.empty();
+
+    if (!transactions || transactions.length === 0) {
+      $body.append('<tr><td colspan="6" class="empty-row">No sales/orders found yet. Create an order to see live data here.</td></tr>');
+      return;
+    }
+
+    transactions.forEach(function (transaction) {
+      var customerEmail = transaction.customerEmail
+        ? "<small>" + escapeHtml(transaction.customerEmail) + "</small>"
+        : "";
+
+      var row = "<tr>" +
+        "<td>#" + escapeHtml(transaction.shortId) + "</td>" +
+        "<td><strong>" + escapeHtml(transaction.customerName) + "</strong>" + customerEmail + "</td>" +
+        "<td>" + escapeHtml(transaction.itemsSummary) + "</td>" +
+        "<td>" + formatCurrency(transaction.totalAmount) + "</td>" +
+        "<td><span class=\"status-pill status-" + escapeHtml(transaction.status) + "\">" + escapeHtml(transaction.status) + "</span></td>" +
+        "<td>" + formatDate(transaction.createdAt) + "</td>" +
+      "</tr>";
+
+      $body.append(row);
+    });
+  }
+
+  function refreshSalesData() {
+    $.getJSON("/api/sales-data")
+      .done(function (data) {
+        $("#totalRevenue").text(formatCurrency(data.totalRevenue));
+        $("#totalOrders").text(Number(data.totalOrders || 0).toLocaleString());
+        $("#topProduct").text(data.topSellingProduct?.name || "No sales yet");
+        $("#topQuantity").text(Number(data.topSellingProduct?.quantitySold || 0).toLocaleString());
+        $("#lastUpdated").text(formatDate(data.lastUpdated));
+        renderRecentTransactions(data.recentTransactions);
+      })
+      .fail(function () {
+        $("#lastUpdated").text("Unable to refresh data. Check /api/sales-data.");
+      });
+  }
+
+  $(document).ready(function () {
+    refreshSalesData();
+    setInterval(refreshSalesData, 10000);
+  });
+</script>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile - Unze London</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <main class="auth-page">
+    <section class="auth-card">
+      <a href="/" class="auth-logo">Unze London</a>
+      <h1>My Profile</h1>
+
+      <% if (successMessages && successMessages.length) { %>
+        <% successMessages.forEach(message => { %><div class="flash success"><%= message %></div><% }) %>
+      <% } %>
+
+      <p><strong>Name:</strong> <%= currentUser.name %></p>
+      <p><strong>Email:</strong> <%= currentUser.email %></p>
+      <p><strong>Role:</strong> <%= currentUser.role %></p>
+
+      <% if (currentUser.role === 'admin') { %>
+        <a class="auth-button-link" href="/admin">Go to Admin Panel</a>
+      <% } %>
+      <a class="auth-button-link secondary" href="/products">View Products</a>
+      <form action="/logout" method="POST">
+        <button type="submit">Logout</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

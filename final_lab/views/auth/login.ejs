@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Unze London</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <main class="auth-page">
+    <form class="auth-card" action="/login" method="POST">
+      <a href="/" class="auth-logo">Unze London</a>
+      <h1>Login</h1>
+      <p>Select whether you want to continue as a customer or an admin. The app verifies your real role from MongoDB before allowing access.</p>
+
+      <% if (successMessages && successMessages.length) { %>
+        <% successMessages.forEach(message => { %><div class="flash success"><%= message %></div><% }) %>
+      <% } %>
+      <% if (errorMessages && errorMessages.length) { %>
+        <% errorMessages.forEach(message => { %><div class="flash error"><%= message %></div><% }) %>
+      <% } %>
+
+      <label>Login As</label>
+      <select name="loginAs" required>
+        <option value="customer" <%= (formData.loginAs || 'customer') === 'customer' ? 'selected' : '' %>>Customer</option>
+        <option value="admin" <%= formData.loginAs === 'admin' ? 'selected' : '' %>>Admin</option>
+      </select>
+
+      <label>Email</label>
+      <input type="email" name="email" value="<%= formData.email || '' %>" placeholder="Enter your email" required>
+
+      <label>Password</label>
+      <input type="password" name="password" placeholder="Enter your password" required minlength="6">
+
+      <button type="submit">Login</button>
+
+      <p class="auth-link">No account? <a href="/register">Create one</a></p>
+      <p class="auth-link"><a href="/products">Back to products</a></p>
+    </form>
+  </main>
+</body>
+</html>
